@@ -231,7 +231,7 @@ RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> /etc/profile
 RUN echo "alias emulator='/opt/android-sdk-linux/emulator/emulator64-arm -avd Android51 -no-audio -partition-size 512 -no-boot-anim'" >> /root/.bashrc
 RUN echo "alias emulator7='/opt/android-sdk-linux/emulator/emulator64-arm -avd Android711 -no-audio -no-boot-anim'" >> /root/.bashrc
 RUN echo "alias emulator9='/opt/android-sdk-linux/tools/emulator -avd Android9_x86_64 -no-audio -no-boot-anim'" >> /root/.bashrc
-RUN echo "alias emulator9-default='/opt/android-sdk-linux/tools/emulator -avd Android9_default_x86_64 -no-audio -no-boot-anim -writable-system" >> /root/.bashrc
+RUN echo "alias emulator9-default='/opt/android-sdk-linux/tools/emulator -avd Android9_default_x86_64 -no-audio -no-boot-anim -writable-system'" >> /root/.bashrc
 RUN echo "export LC_ALL=C" >> /root/.bashrc
 
 RUN mkdir -p /workshop
