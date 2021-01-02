@@ -133,7 +133,8 @@ RUN cd /opt && git clone https://github.com/skylot/jadx.git
 RUN cd /opt/jadx && ./gradlew dist
 
 # Procyon
-RUN wget -q -O "/opt/procyon-decompiler.jar" "https://bitbucket.org/mstrobel/procyon/downloads/procyon-decompiler-$PROCYON_VERSION.jar"
+#RUN wget -q -O "/opt/procyon-decompiler.jar" "https://bitbucket.org/mstrobel/procyon/downloads/procyon-decompiler-$PROCYON_VERSION.jar"
+# Downloadlink does not work currently
 
 # Krakatau
 RUN cd /opt && git clone https://github.com/Storyyeller/Krakatau
@@ -198,6 +199,7 @@ RUN rm -f /opt/tools-linux.zip
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH $PATH:/opt:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 RUN echo y | /opt/android-sdk-linux/tools/bin/sdkmanager --update
+RUN yes | /opt/android-sdk-linux/tools/bin/sdkmanager --licenses
 RUN echo "yes" | /opt/android-sdk-linux/tools/bin/sdkmanager "emulator" "tools" "platform-tools" \
     "build-tools;28.0.3" \
     "ndk-bundle" \
@@ -208,12 +210,14 @@ RUN echo "yes" | /opt/android-sdk-linux/tools/bin/sdkmanager "emulator" "tools" 
     "system-images;android-22;default;armeabi-v7a" \
     "system-images;android-23;google_apis;armeabi-v7a" \
     "system-images;android-25;google_apis;armeabi-v7a" \
-    "system-images;android-28;google_apis_playstore;x86_64" 
+    "system-images;android-28;google_apis_playstore;x86_64" \
+    "system-images;android-28;default;x86_64" 
 
 RUN echo "no" | /opt/android-sdk-linux/tools/bin/avdmanager create avd -n "Android51" -k "system-images;android-22;default;armeabi-v7a"
 RUN echo "no" | /opt/android-sdk-linux/tools/bin/avdmanager create avd -n "Android60" -k "system-images;android-23;google_apis;armeabi-v7a"
 RUN echo "no" | /opt/android-sdk-linux/tools/bin/avdmanager create avd -n "Android711" -k "system-images;android-25;google_apis;armeabi-v7a"
 RUN echo "no" | /opt/android-sdk-linux/tools/bin/avdmanager create avd -n "Android9_x86_64" -k "system-images;android-28;google_apis_playstore;x86_64"
+RUN echo "no" | /opt/android-sdk-linux/tools/bin/avdmanager create avd -n "Android9_default_x86_64" -k "system-images;android-28;default;x86_64"
 
 #RUN mkdir ${ANDROID_HOME}/tools/keymaps && touch ${ANDROID_HOME}/tools/keymaps/en-us
 ENV LD_LIBRARY_PATH ${ANDROID_HOME}/emulator/lib64/qt/lib:${ANDROID_HOME}/emulator/lib64/gles_swiftshader/
@@ -227,6 +231,7 @@ RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> /etc/profile
 RUN echo "alias emulator='/opt/android-sdk-linux/emulator/emulator64-arm -avd Android51 -no-audio -partition-size 512 -no-boot-anim'" >> /root/.bashrc
 RUN echo "alias emulator7='/opt/android-sdk-linux/emulator/emulator64-arm -avd Android711 -no-audio -no-boot-anim'" >> /root/.bashrc
 RUN echo "alias emulator9='/opt/android-sdk-linux/tools/emulator -avd Android9_x86_64 -no-audio -no-boot-anim'" >> /root/.bashrc
+RUN echo "alias emulator9-default='/opt/android-sdk-linux/tools/emulator -avd Android9_default_x86_64 -no-audio -no-boot-anim -writable-system" >> /root/.bashrc
 RUN echo "export LC_ALL=C" >> /root/.bashrc
 
 RUN mkdir -p /workshop
